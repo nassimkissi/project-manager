@@ -1,0 +1,16 @@
+{
+  "name": "Project Manager",
+  "version": "1.0.0",
+  "description": "A sample drag & drop project with TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "start": "lite-server"
+  },
+  "keywords": [],
+  "author": "Nassim Kissi",
+  "license": "ISC",
+  "dependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
