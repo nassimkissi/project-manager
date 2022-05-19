@@ -41,10 +41,35 @@ class ProjectInput {
         this.attach()
     }
 
+    private gatherUserInput(): [string, string, number] | void {
+        const enteredTitle = this.titleInputELement.value
+        const enteredDescription = this.descriptionInputELement.value
+        const enterPeople = this.peopleInputELement.value
+
+        if(enteredTitle.trim().length === 0 || enteredTitle.trim().length === 0 || enterPeople.trim().length === 0) {
+            alert('Entrée invalide, veuillez rééssayer')
+            return
+        } else {
+            return [enteredTitle, enteredDescription, +enterPeople]
+        }
+         
+    }   
+
+    private clearInput() {
+        this.titleInputELement.value = ''
+        this.descriptionInputELement.value = ''
+        this.peopleInputELement.value = ''
+    }
+            
     @autobbind
     private submitHandler(event: Event) {
         event.preventDefault()
-        console.log(this.titleInputELement.value)
+        const userInput = this.gatherUserInput()
+        if(Array.isArray(userInput)) {
+            const [title, desc, people] = userInput
+            console.log(title, desc, people)
+            this.clearInput()
+        }
     }
 
     private configure() {
