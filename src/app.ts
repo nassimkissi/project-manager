@@ -98,7 +98,7 @@ function validate(validatableInput: Validatable) {
 }
 
 // autobbind decorator
-function autobbind(_: any, _2: string, descriptor: PropertyDescriptor) {
+function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
   const adjDescriptor: PropertyDescriptor = {
     configurable: true,
@@ -132,7 +132,13 @@ class ProjectList {
     this.element.id = `${type}-projects`;
 
     projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects;
+      const relevantProjects = projects.filter(prj => {
+        if(this.type === 'active') {
+          return prj.status === ProjectStatus.Active
+        }
+        return prj.status === ProjectStatus.Finished
+      })
+      this.assignedProjects = relevantProjects;
       this.renderProjects();
     });
 
@@ -144,6 +150,7 @@ class ProjectList {
     const listEl = document.getElementById(
       `${this.type}-projects-list`
     )! as HTMLUListElement;
+    listEl.innerHTML = ''; 
     for (const prjItem of this.assignedProjects) {
       const listItem = document.createElement("li");
       listItem.textContent = prjItem.title;
@@ -241,7 +248,7 @@ class ProjectInput {
     this.peopleInputELement.value = "";
   }
 
-  @autobbind
+  @autobind
   private submitHandler(event: Event) {
     event.preventDefault();
     const userInput = this.gatherUserInput();
