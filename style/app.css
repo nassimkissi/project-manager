@@ -68,11 +68,11 @@
     align-items: center;
   }
   
-  #finished-projects {
+  #accomplis-projects {
     border-color: #0044ff;
   }
   
-  #finished-projects header {
+  #accomplis-projects header {
     background: #0044ff;
   }
   
@@ -91,6 +91,7 @@
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.26);
     padding: 1rem;
     margin: 1rem;
+    background-color: white;
   }
   
   .projects li h2 {
@@ -115,7 +116,7 @@
     background: #ffe3ee;
   }
   
-  #finished-projects .droppable {
+  #accomplis-projects .droppable {
     background: #d6e1ff;
   }
   
