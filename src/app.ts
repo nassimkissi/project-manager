@@ -161,6 +161,14 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
   private project: Project
 
+  get contributors() {
+    if (this.project.people === 1) {
+      return '1 contributeur'
+    } else {
+      return `${this.project.people} contributeurs`
+    }
+  }
+
   constructor(hostId: string, project: Project) {
     super('single-project', hostId, false, project.id)
     this.project = project
@@ -175,7 +183,7 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
 
   renderContent()  {
       this.element.querySelector('h2')!.textContent = this.project.title
-      this.element.querySelector('h3')!.textContent = this.project.people.toString()
+      this.element.querySelector('h3')!.textContent = this.contributors
       this.element.querySelector('p')!.textContent = this.project.description
   }
 }
@@ -185,7 +193,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
 
   assignedProjects: any[];
 
-  constructor(private type: "active" | "finished") {
+  constructor(private type: "actifs" | "accomplis") {
     super('project-list', 'app', false, `${type}-projects`)
     this.assignedProjects = [];
 
@@ -196,7 +204,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   configure(){
     projectState.addListener((projects: Project[]) => {
       const relevantProjects = projects.filter((prj) => {
-        if (this.type === "active") {
+        if (this.type === "actifs") {
           return prj.status === ProjectStatus.Active;
         }
         return prj.status === ProjectStatus.Finished;
@@ -210,7 +218,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector("ul")!.id = listId;
     this.element.querySelector("h2")!.textContent =
-      this.type.toUpperCase() + " PROJECTS";
+      "PROJETS " + this.type.toUpperCase();
   }
 
   private renderProjects() {
@@ -309,5 +317,5 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>{
 }
 
 const prjInput = new ProjectInput();
-const activePrjList = new ProjectList("active");
-const finishesPrjList = new ProjectList("finished");
+const activePrjList = new ProjectList("actifs");
+const finishesPrjList = new ProjectList("accomplis");
